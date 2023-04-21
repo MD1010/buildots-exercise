@@ -22,27 +22,26 @@ export const PanoramaViewer: FC<Props> = ({ images }) => {
   useEffect(() => {
     if (images.length) {
       setCurrentImageIndex(0);
-      console.log(images[currentImageIndex].url);
     }
   }, [images]);
 
   return (
     <>
-      (
-      <div className="container">
-        <div className="arrow left" onClick={loadPrevImage}></div>
-        <div className="arrow right" onClick={loadNextImage}></div>
-        <Pannellum
-          height={"600px"}
-          width={"800px"}
-          image={images[currentImageIndex].url}
-          autoLoad
-          pitch={10}
-          yaw={180}
-          hfov={110}
-        />
-      </div>
-      )
+      {!!images.length && (
+        <div className="container">
+          <div className="arrow left" onClick={loadPrevImage}></div>
+          <div className="arrow right" onClick={loadNextImage}></div>
+          <Pannellum
+            height={"600px"}
+            width={"800px"}
+            image={images[currentImageIndex].url}
+            autoLoad
+            pitch={10}
+            yaw={180}
+            hfov={110}
+          />
+        </div>
+      )}
     </>
   );
 };

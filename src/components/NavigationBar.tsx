@@ -1,26 +1,48 @@
-export const NavigationBar = () => {
+import { useEffect, useState } from "react";
+
+export interface Filter {
+  onChange: (calue: string) => void;
+  options: string[];
+  label: string;
+  enabled: boolean;
+}
+
+// type OnChangeFilterFunc = Dispatch<SetStateAction<{ key: string; value: string } | undefined>>;
+
+export const Select = ({ options, label, onChange, enabled }: Filter) => {
+  const [selectedValue, setSelectedValue] = useState("");
+
+  useEffect(() => {
+    console.log("enabled changed", enabled);
+  }, [enabled]);
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedValue(event.target.value);
+    onChange(event.target.value);
+  };
+
+  return (
+    <div>
+      <span>{label}</span>
+      <select style={{ width: 150, margin: 10 }} value={selectedValue} onChange={handleChange} disabled={!enabled}>
+        <option value="" disabled hidden>
+          Select {label}
+        </option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};
+
+export const NavigationBar = ({ filters }: { filters: Filter[] }) => {
   return (
     <div style={{ padding: 10, display: "flex", gap: 10 }}>
-      <div>
-        <span>Apartment</span>
-        <select style={{ width: 100 }}>
-          <option value="" selected disabled hidden>
-            Select Apartment
-          </option>
-          <option>appt 1</option>
-          <option>appt 2</option>
-        </select>
-      </div>
-      <div>
-        <span>Date</span>
-        <select style={{ width: 100 }}>
-          <option value="" selected disabled hidden>
-            Choose Date
-          </option>
-          <option>date 1</option>
-          <option>date 2</option>
-        </select>
-      </div>
+      {filters.map(({ label, options, onChange, enabled }) => {
+        return <Select enabled={enabled} label={label} options={options} onChange={onChange} />;
+      })}
     </div>
   );
 };

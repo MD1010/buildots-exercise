@@ -5,8 +5,6 @@ import { PanoramaViewer } from "./baseUI/PanoramaViewer/PanoramaViewer";
 function App() {
   return (
     <>
-      {/* <NavigationBar /> */}
-
       <ApartmentLibrary />
     </>
   );
