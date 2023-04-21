@@ -1,0 +1,29 @@
+.container {
+  position: relative;
+  height: 600px;
+  width: 800px;
+  background-color: red;
+
+  .arrow {
+    position: absolute;
+    margin: 0 20px;
+    z-index: 2;
+    top: 50%;
+    border: solid white;
+    border-width: 0 5px 5px 0;
+    padding: 10px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .right {
+    right: 0;
+    transform: rotate(-45deg);
+  }
+
+  .left {
+    left: 0;
+    transform: rotate(135deg);
+  }
+}
