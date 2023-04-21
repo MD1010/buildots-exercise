@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       {/* <NavigationBar /> */}
-      <PanoramaViewer />;
+
       <ApartmentLibrary />
     </>
   );
