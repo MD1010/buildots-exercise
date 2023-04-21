@@ -1,12 +1,13 @@
+import { ApartmentLibrary } from "components/ApartmentLibrary/ApartmentLibrary";
 import "./App.css";
 import { PanoramaViewer } from "./baseUI/PanoramaViewer/PanoramaViewer";
-import { NavigationBar } from "./components/NavigationBar";
 
 function App() {
   return (
     <>
-      <NavigationBar />
+      {/* <NavigationBar /> */}
       <PanoramaViewer />;
+      <ApartmentLibrary />
     </>
   );
 }
