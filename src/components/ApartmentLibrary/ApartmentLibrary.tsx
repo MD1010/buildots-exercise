@@ -7,7 +7,7 @@ export const ApartmentLibrary = () => {
 
   const fetchData = async () => {
     try {
-      const { data } = await axios.get("/api/apartments");
+      const { data } = await axios.get("/api");
       console.log(data);
     } catch (e) {
       console.log(e);

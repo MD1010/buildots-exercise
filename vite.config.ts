@@ -1,12 +1,11 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:5000/",
+        target: "https://k4g5uwrgk3.execute-api.eu-west-1.amazonaws.com",
         changeOrigin: true,
         rewrite: (path) => path.replace("/api", ""),
       },
