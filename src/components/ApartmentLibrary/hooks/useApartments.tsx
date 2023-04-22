@@ -3,11 +3,6 @@ import { useEffect, useState } from "react";
 import { Apartment } from "types";
 import { formatDate } from "utils/date";
 
-type FetchConfig = {
-  fetch: boolean;
-  refetchAfterMs: number;
-};
-
 const formatApartmentImageDates = (apartments: Apartment[]) => {
   return apartments.map(({ name, images }) => {
     return {
@@ -17,11 +12,12 @@ const formatApartmentImageDates = (apartments: Apartment[]) => {
   });
 };
 
-export const useApartments = (config: FetchConfig) => {
-  const { fetch, refetchAfterMs } = config;
+export const useApartments = (refetchAfterMs: number = 0) => {
   const [apartments, setApartments] = useState<Apartment[]>([]);
+
   useEffect(() => {
-    const fetchApartment = async () => {
+    let interval: NodeJS.Timer;
+    const fetchApartments = async () => {
       try {
         const { data } = await axios.get<{ apartments: Apartment[] }>("/api");
         const apartments = formatApartmentImageDates(data.apartments);
@@ -30,12 +26,13 @@ export const useApartments = (config: FetchConfig) => {
         console.error(e);
       }
     };
-    if (fetch) {
-      fetchApartment();
-      if (!!refetchAfterMs) {
-        setInterval(fetchApartment, refetchAfterMs);
-      }
+
+    fetchApartments();
+    if (!!refetchAfterMs) {
+      interval = setInterval(fetchApartments, refetchAfterMs);
     }
+
+    return () => clearInterval(interval);
   }, []);
 
   return apartments;

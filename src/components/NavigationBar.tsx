@@ -1,7 +1,7 @@
 import { useId, useState } from "react";
 
 export interface Filter {
-  onChange: (calue: string) => void;
+  onChange: (value: string) => void;
   options: string[];
   label: string;
   enabled: boolean;
