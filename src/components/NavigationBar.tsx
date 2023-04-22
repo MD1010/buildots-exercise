@@ -18,7 +18,7 @@ export const Select = ({ options, label, onChange, enabled }: Filter) => {
   return (
     <div>
       <span>{label}</span>
-      <select style={{ width: 150, margin: 10 }} value={selectedValue} onChange={handleChange} disabled={!enabled}>
+      <select style={{ width: 200, margin: 10 }} value={selectedValue} onChange={handleChange} disabled={!enabled}>
         <option value="" disabled hidden>
           Select {label}
         </option>

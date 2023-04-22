@@ -20,7 +20,7 @@ export const ApartmentLibrary = () => {
   const onDateChange = (value: string) => {
     const availableDates = getFormattedDatesOptions();
     let date: string;
-    if (value === "Latest") {
+    if (value.includes("Latest")) {
       date = getLatestDateString(availableDates);
     } else {
       date = value;
@@ -34,7 +34,7 @@ export const ApartmentLibrary = () => {
     if (selectedApartment) {
       const apartmentToDisplay = apartments.find((a) => a.name === selectedApartment);
       dates.push(...apartmentToDisplay!.images.map((image) => image.date));
-      dates.push("Latest");
+      dates.length > 1 && dates.push(`Latest - ${getLatestDateString(dates)}`);
     }
     return dates;
   };
@@ -63,6 +63,9 @@ export const ApartmentLibrary = () => {
 
   useEffect(() => {
     fetchData();
+    setInterval(() => {
+      fetchData();
+    }, 5_000);
   }, []);
 
   useEffect(() => {
