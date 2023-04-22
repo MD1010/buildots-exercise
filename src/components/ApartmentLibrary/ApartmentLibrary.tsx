@@ -1,13 +1,13 @@
-import axios from "axios";
 import { PanoramaViewer } from "baseUI/PanoramaViewer/PanoramaViewer";
 import { Filter, NavigationBar } from "components/NavigationBar";
 import { useEffect, useState } from "react";
-import { Apartment, Image } from "types";
+import { Image } from "types";
 import { getLatestDateString } from "utils/date";
-import { formatApartmentImageDates } from "./helpers";
+import { useApartments } from "./hooks/useApartments";
+import { REFETCH_AFTER } from "./consts";
 
 export const ApartmentLibrary = () => {
-  const [apartments, setApartments] = useState<Apartment[]>([]);
+  const apartments = useApartments({ fetch: true, refetchAfterMs: REFETCH_AFTER });
   const [images, setImages] = useState<Image[]>([]);
   const [navigationFilters, setNavigationFilters] = useState<Filter[]>([]);
   const [selectedApartment, setSelectedApartment] = useState<string | null>(null);
@@ -25,7 +25,6 @@ export const ApartmentLibrary = () => {
     } else {
       date = value;
     }
-
     setSelectedDate(date);
   };
 
@@ -49,24 +48,6 @@ export const ApartmentLibrary = () => {
       { label: "Date", options: getFormattedDatesOptions(), onChange: onDateChange, enabled: !!selectedApartment },
     ] as Filter[];
   };
-
-  const fetchData = async () => {
-    try {
-      const { data } = await axios.get<{ apartments: Apartment[] }>("/api");
-      const apartments = formatApartmentImageDates(data.apartments);
-
-      setApartments(apartments);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-    setInterval(() => {
-      fetchData();
-    }, 5_000);
-  }, []);
 
   useEffect(() => {
     let filteredImages: Image[] = [];

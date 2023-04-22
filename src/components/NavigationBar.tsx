@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 
 export interface Filter {
   onChange: (calue: string) => void;
@@ -36,7 +36,7 @@ export const NavigationBar = ({ filters }: { filters: Filter[] }) => {
   return (
     <div style={{ padding: 10, display: "flex", gap: 10 }}>
       {filters.map(({ label, options, onChange, enabled }) => {
-        return <Select enabled={enabled} label={label} options={options} onChange={onChange} />;
+        return <Select key={useId()} enabled={enabled} label={label} options={options} onChange={onChange} />;
       })}
     </div>
   );
