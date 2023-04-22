@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Image } from "types";
 import { useApartmentFilters } from "./useApartmentFilters";
 import { useApartments } from "./useApartments";
+import { REFETCH_AFTER } from "../consts";
 
 export const useApartmentLibrary = () => {
-  const apartments = useApartments(0);
   const [images, setImages] = useState<Image[]>([]);
+
+  const apartments = useApartments(REFETCH_AFTER);
   const { selectedApartment, selectedDate, navigationFilters } = useApartmentFilters(apartments);
 
   useEffect(() => {
