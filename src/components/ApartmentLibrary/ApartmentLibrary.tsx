@@ -1,14 +1,9 @@
 import { PanoramaViewer } from "baseUI/PanoramaViewer/PanoramaViewer";
 import { NavigationBar } from "components/NavigationBar";
-import { REFETCH_AFTER } from "./consts";
-import { useApartmentFilters } from "./hooks/useApartmentFilters";
-import { useApartmentImages } from "./hooks/useApartmentImages";
-import { useApartments } from "./hooks/useApartments";
+import { useApartmentLibrary } from "./hooks/useApartmentImages";
 
 export const ApartmentLibrary = () => {
-  const apartments = useApartments(REFETCH_AFTER);
-  const { navigationFilters, selectedApartment, selectedDate } = useApartmentFilters(apartments);
-  const images = useApartmentImages(apartments, selectedApartment, selectedDate);
+  const { images, navigationFilters } = useApartmentLibrary();
 
   return (
     <>

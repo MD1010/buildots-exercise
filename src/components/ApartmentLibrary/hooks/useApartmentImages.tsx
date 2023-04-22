@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Apartment, Image } from "types";
+import { Image } from "types";
+import { useApartmentFilters } from "./useApartmentFilters";
+import { useApartments } from "./useApartments";
 
-export const useApartmentImages = (
-  apartments: Apartment[],
-  selectedApartment: string | null,
-  selectedDate: string | null
-) => {
+export const useApartmentLibrary = () => {
+  const apartments = useApartments(0);
   const [images, setImages] = useState<Image[]>([]);
+  const { selectedApartment, selectedDate, navigationFilters } = useApartmentFilters(apartments);
 
   useEffect(() => {
     let filteredImages: Image[] = [];
@@ -21,5 +21,5 @@ export const useApartmentImages = (
     setImages(filteredImages);
   }, [selectedApartment, selectedDate]);
 
-  return images;
+  return { images, navigationFilters };
 };
