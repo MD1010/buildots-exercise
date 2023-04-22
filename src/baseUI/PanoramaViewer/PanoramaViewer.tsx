@@ -8,6 +8,7 @@ type Props = {
 };
 export const PanoramaViewer: FC<Props> = ({ images }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  console.log(123123123123, images);
 
   const loadPrevImage = () => {
     const newIndex = currentImageIndex - 1 < 0 ? 0 : currentImageIndex - 1;
@@ -38,7 +39,7 @@ export const PanoramaViewer: FC<Props> = ({ images }) => {
           <Pannellum
             height={"600px"}
             width={"800px"}
-            image={images[currentImageIndex].url}
+            image={images[currentImageIndex]?.url}
             autoLoad
             pitch={10}
             yaw={180}
