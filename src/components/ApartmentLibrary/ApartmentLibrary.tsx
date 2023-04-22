@@ -1,7 +1,7 @@
 import axios from "axios";
 import { PanoramaViewer } from "baseUI/PanoramaViewer/PanoramaViewer";
 import { Filter, NavigationBar } from "components/NavigationBar";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Apartment, Image } from "types";
 import { getLatestDateString } from "utils/date";
 import { formatApartmentImageDates } from "./helpers";
@@ -11,12 +11,13 @@ export const ApartmentLibrary = () => {
   const [images, setImages] = useState<Image[]>([]);
   const [navigationFilters, setNavigationFilters] = useState<Filter[]>([]);
   const [selectedApartment, setSelectedApartment] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
-  const filterByApartment = (value: string) => {
+  const onApartmentChange = (value: string) => {
     setSelectedApartment(value);
   };
 
-  const filterByDate = (value: string) => {
+  const onDateChange = (value: string) => {
     const availableDates = getFormattedDatesOptions();
     let date: string;
     if (value === "Latest") {
@@ -24,8 +25,8 @@ export const ApartmentLibrary = () => {
     } else {
       date = value;
     }
-    const filteredImages = images.filter((image) => image.date === date);
-    setImages(filteredImages);
+
+    setSelectedDate(date);
   };
 
   const getFormattedDatesOptions = () => {
@@ -44,8 +45,8 @@ export const ApartmentLibrary = () => {
 
   const getNavigationFilters = () => {
     return [
-      { label: "Apartment", options: getApartmentsOptions(), onChange: filterByApartment, enabled: true },
-      { label: "Date", options: getFormattedDatesOptions(), onChange: filterByDate, enabled: !!selectedApartment },
+      { label: "Apartment", options: getApartmentsOptions(), onChange: onApartmentChange, enabled: true },
+      { label: "Date", options: getFormattedDatesOptions(), onChange: onDateChange, enabled: !!selectedApartment },
     ] as Filter[];
   };
 
@@ -53,7 +54,6 @@ export const ApartmentLibrary = () => {
     try {
       const { data } = await axios.get<{ apartments: Apartment[] }>("/api");
       const apartments = formatApartmentImageDates(data.apartments);
-      console.log(apartments);
 
       setApartments(apartments);
     } catch (e) {
@@ -66,12 +66,22 @@ export const ApartmentLibrary = () => {
   }, []);
 
   useEffect(() => {
-    if (apartments.length) {
+    let filteredImages: Image[] = [];
+    if (selectedApartment) {
       const apartmentImages = apartments.find((apartment) => apartment.name === selectedApartment)?.images || [];
-      console.log(apartmentImages);
+      filteredImages = apartmentImages;
+    }
 
-      setImages(apartmentImages);
+    if (selectedDate) {
+      filteredImages = filteredImages?.filter((image) => image.date === selectedDate);
+    }
+    setImages(filteredImages);
+  }, [selectedApartment, selectedDate]);
+
+  useEffect(() => {
+    if (apartments.length) {
       setNavigationFilters(getNavigationFilters());
+      selectedDate && setSelectedDate(getFormattedDatesOptions()[0]);
     }
   }, [apartments, selectedApartment]);
 

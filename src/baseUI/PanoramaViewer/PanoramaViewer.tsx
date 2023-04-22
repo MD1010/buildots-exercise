@@ -23,14 +23,20 @@ export const PanoramaViewer: FC<Props> = ({ images }) => {
     if (images.length) {
       setCurrentImageIndex(0);
     }
+
+    console.log(images);
   }, [images]);
 
   return (
     <>
       {!!images.length && (
         <div className="container">
-          <div className="arrow left" onClick={loadPrevImage}></div>
-          <div className="arrow right" onClick={loadNextImage}></div>
+          {images.length > 1 && (
+            <>
+              <div className="arrow left" onClick={loadPrevImage}></div>
+              <div className="arrow right" onClick={loadNextImage}></div>
+            </>
+          )}
           <Pannellum
             height={"600px"}
             width={"800px"}

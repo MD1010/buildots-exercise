@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export interface Filter {
   onChange: (calue: string) => void;
@@ -7,14 +7,9 @@ export interface Filter {
   enabled: boolean;
 }
 
-// type OnChangeFilterFunc = Dispatch<SetStateAction<{ key: string; value: string } | undefined>>;
-
 export const Select = ({ options, label, onChange, enabled }: Filter) => {
   const [selectedValue, setSelectedValue] = useState("");
 
-  useEffect(() => {
-    console.log("enabled changed", enabled);
-  }, [enabled]);
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValue(event.target.value);
     onChange(event.target.value);
