@@ -1,7 +1,7 @@
 import { Pannellum } from "pannellum-react";
-import "./PanoramaViewer.scss";
-import { Image } from "types";
 import { FC, useEffect, useState } from "react";
+import { Image } from "types";
+import "./PanoramaViewer.scss";
 
 type Props = {
   images: Image[];
@@ -23,8 +23,6 @@ export const PanoramaViewer: FC<Props> = ({ images }) => {
     if (images.length) {
       setCurrentImageIndex(0);
     }
-
-    console.log(images);
   }, [images]);
 
   return (
