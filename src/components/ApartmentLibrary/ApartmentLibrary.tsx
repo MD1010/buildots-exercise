@@ -1,5 +1,5 @@
 import { PanoramaViewer } from "baseUI/PanoramaViewer/PanoramaViewer";
-import { NavigationBar } from "components/NavigationBar";
+import { NavigationBar } from "components/ApartmentLibrary/NavigationBar";
 import { useApartmentLibrary } from "./hooks/useApartmentImages";
 
 export const ApartmentLibrary = () => {
